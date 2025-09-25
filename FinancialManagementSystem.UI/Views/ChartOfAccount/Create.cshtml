@@ -1,0 +1,97 @@
+﻿
+@using FinancialManagementSystem.Core
+@model ChartOfAccountCreateDto
+
+@{
+    ViewData["Title"] = "Create Chart of Account";
+}
+
+<!-- Duplicate error alert -->
+@if (TempData["DuplicateError"] != null)
+{
+    <div class="alert alert-danger" id="duplicateAlert">
+        @TempData["DuplicateError"]
+    </div>
+
+    <script>
+        setTimeout(function () {
+            var alert = document.getElementById('duplicateAlert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }, 2000);
+    </script>
+}
+
+
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Create Chart of Account</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row g-3">
+                    <!-- Account Code -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="AccountCode" class="form-control" placeholder="Account Code" />
+                            <label asp-for="AccountCode">Account Code <span class="text-danger">*</span></label>
+                            <span asp-validation-for="AccountCode" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Account Name -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="AccountName" class="form-control" placeholder="Account Name" />
+                            <label asp-for="AccountName">Account Name <span class="text-danger">*</span></label>
+                            <span asp-validation-for="AccountName" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Account Type -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select asp-for="AccountType" class="form-select" asp-items="ViewBag.AccountTypes">
+                                <option value="">-- Select Account Type --</option>
+                            </select>
+                            <label asp-for="AccountType">Account Type <span class="text-danger">*</span></label>
+                            <span asp-validation-for="AccountType" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Parent Account -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select asp-for="ParentId" class="form-select" asp-items="ViewBag.ParentAccounts">
+                                <option value="">-- Select Parent Account (optional) --</option>
+                            </select>
+                            <label asp-for="ParentId">Parent Account</label>
+                            <span asp-validation-for="ParentId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Is Active -->
+                    <div class="form-check form-switch">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="IsActive"
+                               name="IsActive"
+                               value="true"
+                               @(Model.IsActive ?? false ? "checked" : "") />
+                        <label class="form-check-label" for="IsActive">Active</label>
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
